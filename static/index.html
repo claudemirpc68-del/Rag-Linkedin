@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedIn Viral — Dashboard de Conteúdo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css" />
+</head>
+<body class="theme-dark">
+  <div class="app-layout">
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-container">
+          <div class="brand-icon-box">
+            <svg class="sparkle-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L14.4 7.6L20 10L14.4 12.4L12 18L9.6 12.4L4 10L9.6 7.6L12 2Z" />
+              <path d="M19 15L20.2 17.8L23 19L20.2 20.2L19 23L17.8 20.2L15 19L17.8 17.8L19 15Z" />
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <h2 class="brand-title">LinkedIn Viral</h2>
+            <span class="brand-author">BY: CLAUDEMIR PEDROSO CUBAS</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active" data-view="dashboard">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navChat">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Chat</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navTemplates">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            <span>Templates</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navAnalisar">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Analisar Post</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navCarrossel">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span>Carrossel</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navCalendario">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Calendário</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navGaleria">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Galeria</span>
+          </a>
+
+          <a href="#" class="nav-item" id="navPublicar">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+            <span>Publicar no LinkedIn</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <!-- User Profile -->
+        <div class="user-profile-row" id="userProfileBtn">
+          <div class="user-avatar-pill">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="user-icon-svg">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <span class="user-email-text">claudemirpc68@gma...</span>
+          <button class="logout-btn" title="Configurações & Chaves">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-svg">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle-row">
+          <button class="icon-toggle-btn" id="btnToggleTheme" title="Alternar Modo Claro/Escuro">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="moon-svg">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Tip Box -->
+        <div class="sidebar-tip-card">
+          <p>💡 <strong>Dica:</strong> Posts nativos (sem links externos) têm até 3x mais alcance!</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-viewport">
+      <!-- Main Dashboard Header -->
+      <header class="dashboard-header">
+        <div class="header-icon-box">
+          <svg class="sparkle-svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L14.4 7.6L20 10L14.4 12.4L12 18L9.6 12.4L4 10L9.6 7.6L12 2Z" />
+            <path d="M19 15L20.2 17.8L23 19L20.2 20.2L19 23L17.8 20.2L15 19L17.8 17.8L19 15Z" />
+          </svg>
+        </div>
+        <div class="header-titles">
+          <h1 class="header-title">Dashboard</h1>
+          <p class="header-subtitle">Visão geral do seu conteúdo LinkedIn</p>
+        </div>
+      </header>
+
+      <!-- KPI Metrics Row (4 Cards) -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <div class="kpi-number" id="kpiPostsCount">78</div>
+          <div class="kpi-label">Posts Gerados</div>
+          <div class="kpi-sub">Total via IA</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <div class="kpi-number" id="kpiConversasCount">33</div>
+          <div class="kpi-label">Conversas</div>
+          <div class="kpi-sub">Sessões de criação</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="kpi-number" id="kpiAgendadosCount">4</div>
+          <div class="kpi-label">Agendados</div>
+          <div class="kpi-sub">No calendário</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+          </div>
+          <div class="kpi-number" id="kpiPublicadosCount">0</div>
+          <div class="kpi-label">Publicados</div>
+          <div class="kpi-sub">Finalizados</div>
+        </div>
+      </section>
+
+      <!-- Section: Ações Rápidas -->
+      <section class="quick-actions-section">
+        <h2 class="section-heading">⚡ Ações Rápidas</h2>
+        <div class="actions-grid">
+          <!-- Card 1: Criar Post -->
+          <button class="action-card color-blue" id="btnActionCriarPost">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Criar Post</strong>
+              <span class="action-desc">Gere conteúdo viral com IA</span>
+            </div>
+          </button>
+
+          <!-- Card 2: Templates -->
+          <button class="action-card color-orange" id="btnActionTemplates">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Templates</strong>
+              <span class="action-desc">Modelos prontos para usar</span>
+            </div>
+          </button>
+
+          <!-- Card 3: Analisar Post -->
+          <button class="action-card color-green" id="btnActionAnalisar">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Analisar Post</strong>
+              <span class="action-desc">Avalie seu conteúdo</span>
+            </div>
+          </button>
+
+          <!-- Card 4: Carrossel -->
+          <button class="action-card color-purple" id="btnActionCarrossel">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Carrossel</strong>
+              <span class="action-desc">Crie carrosséis impactantes</span>
+            </div>
+          </button>
+
+          <!-- Card 5: Calendário -->
+          <button class="action-card color-pink" id="btnActionCalendario">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Calendário</strong>
+              <span class="action-desc">Gerencie agendamentos</span>
+            </div>
+          </button>
+
+          <!-- Card 6: Galeria -->
+          <button class="action-card color-gold" id="btnActionGaleria">
+            <div class="action-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+            </div>
+            <div class="action-text">
+              <strong class="action-title">Galeria</strong>
+              <span class="action-desc">Suas imagens geradas</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Section: 2x2 Content Panels -->
+      <section class="panels-grid">
+        <!-- Panel 1 (Top Left): Conversas Recentes -->
+        <div class="content-panel">
+          <div class="panel-top-row">
+            <h3 class="panel-heading">Conversas Recentes</h3>
+            <a href="#" class="panel-link" id="linkVerConversas">Ver todas &rarr;</a>
+          </div>
+          <div class="conversas-list" id="conversasListContainer">
+            <div class="conversa-item">
+              <div class="conversa-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="conversa-info">
+                <strong>Nova conversa</strong>
+                <span>02 set, 19:52 &bull; 1 msgs</span>
+              </div>
+            </div>
+
+            <div class="conversa-item">
+              <div class="conversa-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="conversa-info">
+                <strong>Nova conversa</strong>
+                <span>29 ago, 18:26 &bull; 1 msgs</span>
+              </div>
+            </div>
+
+            <div class="conversa-item">
+              <div class="conversa-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="conversa-info">
+                <strong>Nova conversa</strong>
+                <span>27 ago, 18:54 &bull; 1 msgs</span>
+              </div>
+            </div>
+
+            <div class="conversa-item">
+              <div class="conversa-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="conversa-info">
+                <strong>Nova conversa</strong>
+                <span>26 ago, 21:07 &bull; 1 msgs</span>
+              </div>
+            </div>
+
+            <div class="conversa-item">
+              <div class="conversa-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div class="conversa-info">
+                <strong>Nova conversa</strong>
+                <span>24 ago, 18:56 &bull; 1 msgs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 (Top Right): Próximos Agendamentos -->
+        <div class="content-panel">
+          <div class="panel-top-row">
+            <h3 class="panel-heading">Próximos Agendamentos</h3>
+            <a href="#" class="panel-link" id="linkVerCalendario">Calendário &rarr;</a>
+          </div>
+          <div class="empty-panel-state">
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <p class="empty-state-text">Nenhum post agendado</p>
+            <button class="outline-state-btn" id="btnAgendarPost">Agendar post</button>
+          </div>
+        </div>
+
+        <!-- Panel 3 (Bottom Left): Posts Gerados pela IA -->
+        <div class="content-panel">
+          <div class="panel-top-row">
+            <h3 class="panel-heading">Posts Gerados pela IA</h3>
+            <a href="#" class="panel-link" id="linkVerTodosPosts">Ver todos &rarr;</a>
+          </div>
+          <div class="generated-posts-scroll" id="generatedPostsList">
+            <!-- Card 1 -->
+            <div class="post-preview-item">
+              <div class="post-item-header">
+                <span class="post-prompt-title">oi &bull; 08 mai, 22:27</span>
+                <button class="copy-icon-btn" title="Copiar Post" data-target="postText1">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="post-item-body" id="postText1">
+Olá! Tudo bem?
+
+Sou especialista em criar conteúdo estratégico para o LinkedIn. Estou aqui para ajudar você a transformar suas ideias em posts que geram autoridade, engajamento e, claro, aquele potencial de viralização.
+
+Seja para falar sobre **carreira, tecnologia, liderança ou compartilhar uma lição aprendida**, eu posso estruturar o texto ideal para o seu perfil.
+
+Como posso te ajudar hoje? Você já tem um tema em mente ou gostaria que eu sugerisse algumas ideias que estão em alta?
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="post-preview-item">
+              <div class="post-item-header">
+                <span class="post-prompt-title">Escreva um post curto e viral para o LinkedIn sobre... &bull; 08 mai, 21:13</span>
+                <button class="copy-icon-btn" title="Copiar Post" data-target="postText2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="post-item-body" id="postText2">
+Com certeza! Para falar sobre o futuro do trabalho e das organizações com IA, a chave é não cair no hype vazio.
+
+O que separa quem apenas usa ferramentas de quem constrói relevância é a visão crítica e a capacidade de transformar dados em estratégia real.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4 (Bottom Right): Rascunhos -->
+        <div class="content-panel">
+          <div class="panel-top-row">
+            <h3 class="panel-heading">Rascunhos</h3>
+            <a href="#" class="panel-link" id="linkVerRascunhos">Calendário &rarr;</a>
+          </div>
+          <div class="empty-panel-state">
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <p class="empty-state-text">Nenhum rascunho salvo</p>
+            <button class="outline-state-btn" id="btnCriarRascunho">Criar rascunho</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Badge -->
+      <footer class="app-footer">
+        <span class="lovable-badge">Edit with <span class="heart">❤️</span> Lovable &bull; Powered by Antigravity</span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ==================== MODAL: CRIAR POST COM IA ==================== -->
+  <div class="modal-overlay hidden" id="modalCriarPost">
+    <div class="modal-container large-modal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-badge">IA VIRAL ENGINE</span>
+          <h3>Criar Post com Inteligência Artificial</h3>
+        </div>
+        <button class="modal-close" id="btnCloseCriarPost">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="creation-grid">
+          <!-- Coluna 1: Inputs -->
+          <div class="creation-inputs">
+            <div class="field-group">
+              <label>Tema ou Ideia Central <span class="req">*</span></label>
+              <textarea id="modalTopic" rows="3" placeholder="Ex: A armadilha do hype de IA nas lideranças técnicas..."></textarea>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label>Objetivo</label>
+                <select id="modalObjective">
+                  <option value="Estimular debate e engajamento" selected>Estimular debate e engajamento</option>
+                  <option value="Gerar autoridade técnica">Gerar autoridade técnica</option>
+                  <option value="Storytelling reflexivo">Storytelling reflexivo</option>
+                  <option value="Desmistificar hype (Provocativo)">Desmistificar hype</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label>Motor LLM</label>
+                <select id="modalEngine">
+                  <option value="Groq" selected>Groq (qwen/qwen3.6-27b)</option>
+                  <option value="OpenRouter">OpenRouter (meta-llama/llama-3.3-70b)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Público-Alvo</label>
+              <input type="text" id="modalAudience" value="Líderes de TI, Tech Leads e Desenvolvedores" />
+            </div>
+
+            <button class="generate-btn" id="btnModalGenerate">
+              <span class="spinner hidden" id="modalSpinner"></span>
+              <span>⚡ Gerar 3 Perspectivas Virais</span>
+            </button>
+          </div>
+
+          <!-- Coluna 2: Resultados e Perspectivas -->
+          <div class="creation-preview">
+            <div class="perspectives-tabs">
+              <button class="p-tab active" data-p="critica">⚡ Crítico</button>
+              <button class="p-tab" data-p="otimista">🚀 Otimista</button>
+              <button class="p-tab" data-p="pragmatica">🛠️ Pragmático</button>
+            </div>
+
+            <div class="p-content-box">
+              <div class="p-hook" id="modalHookView">O gancho viral aparecerá aqui...</div>
+              <div class="p-text" id="modalTextView">Preencha o tema e gere as perspectivas para visualizar e editar o texto completo do post.</div>
+            </div>
+
+            <!-- Prompt da Imagem -->
+            <div class="image-prompt-card">
+              <div class="prompt-header">
+                <span>🎨 Prompt de Imagem (Inglês)</span>
+                <button class="tiny-btn" id="btnCopyModalPrompt">Copiar</button>
+              </div>
+              <div class="prompt-text" id="modalPromptView">Aguardando geração do prompt visual...</div>
+            </div>
+
+            <div class="creation-actions">
+              <button class="btn-secondary" id="btnSalvarRascunho">Salvar Rascunho</button>
+              <button class="btn-primary" id="btnEnviarAoLinkedIn">Publicar no LinkedIn &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: PUBLICAR NO LINKEDIN ==================== -->
+  <div class="modal-overlay hidden" id="modalPublicar">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-badge">LINKEDIN POSTS API</span>
+          <h3>Publicação no LinkedIn</h3>
+        </div>
+        <button class="modal-close" id="btnClosePublicar">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="mode-options">
+          <label class="mode-card active" id="labelModeSim">
+            <input type="radio" name="apiMode" value="simulation" id="radioSim" checked />
+            <div class="mode-info">
+              <strong>🧪 Modo Simulação (Sandbox Seguro)</strong>
+              <span>Valida headers Restli 2.0.0 e retorna URN de resposta sem custo.</span>
+            </div>
+          </label>
+          <label class="mode-card" id="labelModeLive">
+            <input type="radio" name="apiMode" value="live" id="radioLive" />
+            <div class="mode-info">
+              <strong>🌐 Modo Produção (LinkedIn Live)</strong>
+              <span>Dispara o post real para o feed usando seu OAuth Token.</span>
+            </div>
+          </label>
+        </div>
+
+        <div id="linkedinTokenNotice" style="margin-top: 0.75rem; padding: 0.75rem; border-radius: 6px; background: rgba(234, 179, 8, 0.12); border: 1px solid rgba(234, 179, 8, 0.4); font-size: 0.85rem; color: #fef08a; display: flex; align-items: center; justify-content: space-between;">
+          <span>⚠️ <strong>Atenção:</strong> Token do LinkedIn não configurado. O post será simulado.</span>
+          <a href="/auth/linkedin" style="background: #0a66c2; color: #fff; padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.8rem; white-space: nowrap;">🔗 Conectar Conta</a>
+        </div>
+
+        <div class="field-group" style="margin-top: 1rem;">
+          <label>Texto a ser publicado:</label>
+          <textarea id="publishTextContent" rows="6"></textarea>
+        </div>
+
+        <div class="field-group" style="margin-top: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label style="margin: 0;">Imagem do Post (Opcional):</label>
+            <span style="font-size: 0.75rem; color: #a1a1aa;">Suporta PNG, JPG, WebP</span>
+          </div>
+          <div id="imageDropZone" style="border: 2px dashed rgba(255,255,255,0.15); border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; background: rgba(255,255,255,0.02); transition: all 0.2s ease;">
+            <input type="file" id="publishImageInput" accept="image/png, image/jpeg, image/webp" style="display: none;" />
+            <div id="dropZoneEmpty">
+              <svg style="width: 28px; height: 28px; color: #a1a1aa; margin: 0 auto 0.25rem auto; display: block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <div style="font-size: 0.82rem; color: #e4e4e7;">Clique ou arraste uma imagem aqui</div>
+            </div>
+            <div id="dropZonePreview" class="hidden" style="position: relative; display: inline-block;">
+              <img id="imgPreviewThumb" src="" alt="Preview" style="max-height: 140px; border-radius: 6px; display: block;" />
+              <button type="button" id="btnRemoveImage" title="Remover Imagem" style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 13px; font-weight: bold; line-height: 1;">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="publish-status-box hidden" id="publishFeedbackBox"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelPub">Fechar</button>
+        <button class="btn-primary" id="btnExecutePublish">Disparar Publicação</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CONFIGURAÇÕES ==================== -->
+  <div class="modal-overlay hidden" id="modalSettings">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>⚙️ Configurações do Agente &amp; Chaves</h3>
+        <button class="modal-close" id="btnCloseSettings">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="field-group">
+          <label>Groq API Key</label>
+          <input type="password" id="setGroqKey" placeholder="gsk_..." />
+        </div>
+        <div class="field-group">
+          <label>OpenRouter API Key</label>
+          <input type="password" id="setOpenRouterKey" placeholder="sk-or-v1-..." />
+        </div>
+        <div class="field-group">
+          <label>LinkedIn Access Token (OAuth 2.0)</label>
+          <input type="password" id="setLinkedInToken" placeholder="AQX..." />
+        </div>
+
+        <div style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; background: rgba(10, 102, 194, 0.12); border: 1px solid #0a66c2; text-align: center;">
+          <p style="margin: 0 0 0.5rem 0; font-size: 0.82rem; color: #93c5fd;">Conectar automaticamente com sua conta oficial do LinkedIn:</p>
+          <a href="/auth/linkedin" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #0a66c2; color: #fff; text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem;">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px;">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.64a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z"/>
+            </svg>
+            Conectar Perfil com OAuth 2.0
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelSettings">Cancelar</button>
+        <button class="btn-primary" id="btnSaveAllSettings">Salvar Chaves</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-wrapper" id="toastWrapper"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
