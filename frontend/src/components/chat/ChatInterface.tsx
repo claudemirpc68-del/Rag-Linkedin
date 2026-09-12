@@ -19,6 +19,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Message, Conversation } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ChatMessage } from './ChatMessage';
@@ -91,6 +102,13 @@ export function ChatInterface() {
       setCurrentConversationId(remaining.length > 0 ? remaining[0].id : null);
     }
     toast.success('Conversa excluída.');
+  };
+
+  const handleClearAllConversations = () => {
+    setConversations([]);
+    setCurrentConversationId(null);
+    setShowHistory(false);
+    toast.success('Todo o histórico de conversas foi excluído com sucesso.');
   };
 
   const handleSend = async (customTopic?: string) => {
@@ -261,8 +279,9 @@ export function ChatInterface() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="w-6 h-6 opacity-0 group-hover:opacity-100 flex-shrink-0"
+                      className="w-6 h-6 opacity-70 md:opacity-0 md:group-hover:opacity-100 hover:!opacity-100 flex-shrink-0"
                       onClick={(e) => handleDeleteConversation(conv.id, e)}
+                      title="Excluir esta conversa"
                     >
                       <Trash2 className="w-3.5 h-3.5 text-destructive" />
                     </Button>
@@ -283,24 +302,73 @@ export function ChatInterface() {
             )}
           </div>
         </ScrollArea>
+
+        {/* Rodapé da Sub-sidebar com Ação de Limpar Todo o Histórico */}
+        {conversations.length > 0 && (
+          <div className="p-2 border-t border-border bg-card/20 flex-shrink-0">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center justify-center gap-1.5 h-8"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                  <span>Limpar todo o histórico</span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-card border-border">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Excluir todo o histórico?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação removerá permanentemente todas as suas conversas salvas localmente no navegador. Essa ação não pode ser desfeita.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={handleClearAllConversations}
+                  >
+                    Sim, excluir todas
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
       </div>
 
       {/* Coluna 3: Canvas Principal do Chat */}
       <div className="flex-1 flex flex-col relative h-full overflow-hidden">
-        {/* Top bar com botão de configurações e menu mobile */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        {/* Top bar com botão de excluir conversa atual, configurações e menu mobile */}
+        <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 sm:gap-2">
+          {currentConversation && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2.5 text-xs text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors flex items-center gap-1.5"
+              onClick={(e) => handleDeleteConversation(currentConversation.id, e)}
+              title="Excluir esta conversa"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-destructive" />
+              <span className="hidden sm:inline">Excluir conversa</span>
+            </Button>
+          )}
+
           <Button
             variant="ghost"
             size="icon"
             className="md:hidden h-8 w-8 text-muted-foreground"
             onClick={() => setShowHistory(!showHistory)}
+            title="Histórico de conversas"
           >
             <MessageSquare className="w-4 h-4" />
           </Button>
 
           <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" title="Configurações">
                 <Settings className="w-4 h-4" />
               </Button>
             </DialogTrigger>
