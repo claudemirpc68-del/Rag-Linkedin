@@ -6,6 +6,7 @@ narrativas com ganchos virais, prompts visuais em inglês e otimização de enga
 import os
 import json
 import requests
+from datetime import datetime
 from typing import Dict, Any, Optional, List
 
 from config import (
@@ -13,6 +14,22 @@ from config import (
     OPENROUTER_API_KEY, OPENROUTER_DEFAULT_MODEL,
     AGENT_PERSONA
 )
+
+def get_current_datetime_context() -> str:
+    """Retorna o contexto temporal dinâmico em português do Brasil com data, dia da semana e horário."""
+    now = datetime.now()
+    dias_semana = [
+        "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira",
+        "Sexta-feira", "Sábado", "Domingo"
+    ]
+    dia_nome = dias_semana[now.weekday()]
+    meses = [
+        "", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ]
+    mes_nome = meses[now.month]
+    return f"Hoje é {dia_nome}, {now.strftime('%d/%m/%Y')} ({now.day} de {mes_nome} de {now.year}), horário local: {now.strftime('%H:%M')}"
+
 
 class LLMClient:
     """Cliente unificado para chamadas LLM com suporte a Groq e OpenRouter."""
@@ -166,9 +183,16 @@ class LinkedInViralContentAI:
         self.persona = AGENT_PERSONA
 
     def build_system_prompt(self) -> str:
+        temporal_context = get_current_datetime_context()
         return f"""Você é o '{self.persona['name']}', um especialista em criação de conteúdo viral, técnico e humano para o LinkedIn.
 Sua persona possui o tom: {self.persona['tone']}.
 Estilos narrativos dominados: {', '.join(self.persona['styles'])}.
+
+CONTEXTO TEMPORAL FACTUAL OBRIGATÓRIO:
+- {temporal_context}.
+- Você SEMPRE opera no presente real (ano corrente de 2026).
+- Todas as análises de tendências, acontecimentos do mercado, novidades e sugestões de cronograma/calendário devem obrigatoriamente considerar que a data atual é {temporal_context}. Nunca use anos passados (como 2023, 2024 ou 2025) como tempo presente.
+
 Suas capacidades:
 - Gerar pontos de vista próprios e autênticos (fugindo do lugar-comum e de clichês corporativos vazios).
 - Usar storytelling, frases de alto impacto e ganchos (hooks) que prendem a atenção antes do botão 'Ver mais'.
@@ -190,7 +214,9 @@ Suas capacidades:
         
         system_prompt = self.build_system_prompt()
 
-        user_prompt = f"""TEMA: {topic}
+        temporal_context = get_current_datetime_context()
+        user_prompt = f"""CONTEXTO TEMPORAL ATUAL: {temporal_context}. Utilize este contexto temporal e dia da semana para formular ganchos, tendências atuais e recomendações de dias/horários ideais de postagem a partir de hoje ({temporal_context}).
+TEMA: {topic}
 OBJETIVO: {objective}
 ESTILO PRINCIPAL: {style}
 PÚBLICO-ALVO: {audience}
@@ -302,7 +328,8 @@ Responda EXCLUSIVAMENTE com o JSON válido sem blocos adicionais de texto fora d
         model: Optional[str] = None
     ) -> Dict[str, Any]:
         """Audita um post e retorna score viral, força do gancho e melhorias."""
-        system_prompt = "Você é um auditor especialista em viralidade e engajamento no LinkedIn. Responda exclusivamente em JSON válido."
+        temporal_context = get_current_datetime_context()
+        system_prompt = f"Você é um auditor especialista em viralidade e engajamento no LinkedIn. Data e horário atual de referência: {temporal_context}. Responda exclusivamente em JSON válido."
         user_prompt = f"""Analise este post para LinkedIn e avalie seu potencial de engajamento:
 ---
 {post_text}
@@ -347,7 +374,8 @@ Retorne exclusivamente o JSON no formato:
         model: Optional[str] = None
     ) -> Dict[str, Any]:
         """Gera roteiro completo de carrossel para LinkedIn."""
-        system_prompt = "Você é especialista em carrosséis virais de alto engajamento no LinkedIn. Responda exclusivamente em JSON."
+        temporal_context = get_current_datetime_context()
+        system_prompt = f"Você é especialista em carrosséis virais de alto engajamento no LinkedIn. Data de referência atual: {temporal_context}. Responda exclusivamente em JSON."
         user_prompt = f"""Crie um carrossel de {num_slides} slides sobre o tema: '{topic}'.
 Retorne exclusivamente o JSON:
 {{
@@ -395,8 +423,15 @@ Retorne exclusivamente o JSON:
         api_key: Optional[str] = None
     ) -> Dict[str, Any]:
         """Interage de forma conversacional natural e gera post apenas quando o usuário pedir."""
-        system_prompt = """Você é o Especialista Estratégico em Conteúdo Viral e Autoridade Técnica para o LinkedIn.
+        temporal_context = get_current_datetime_context()
+        system_prompt = f"""Você é o Especialista Estratégico em Conteúdo Viral e Autoridade Técnica para o LinkedIn.
 Seu objetivo é ajudar o usuário a construir autoridade sólida, alto engajamento e gerar conexões de alto valor na rede.
+
+CONTEXTO TEMPORAL OBRIGATÓRIO (ÂNCORA FACTUAL EM TEMPO REAL):
+- {temporal_context}.
+- Você DEVE obrigatoriamente utilizar datas, dias da semana e horários atuais reais (ano de 2026). Hoje é exatamente {temporal_context}.
+- Quando o usuário perguntar sobre a data de hoje, dia da semana, calendário de publicações, planejamento de posts ou tendências atuais de mercado, responda sempre com precisão absoluta com base nesta data e horário ({temporal_context}).
+- NUNCA se refira a anos anteriores (como 2023, 2024 ou 2025) como presentes; o presente é 2026.
 
 DIRETRIZES FUNDAMENTAIS DE COMPORTAMENTO:
 1. INTERAÇÃO E CONVERSAÇÃO NATURAL (MODO PADRÃO):

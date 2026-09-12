@@ -54,9 +54,15 @@ export function ChatInterface() {
     setVisibleConversations(prev => prev + CONVERSATIONS_PER_PAGE);
   };
 
+  const prevMessagesCountRef = useRef(messages.length);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+    // Só aciona scroll automático quando a quantidade de mensagens aumentar (nova mensagem)
+    if (messages.length > prevMessagesCountRef.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+    prevMessagesCountRef.current = messages.length;
+  }, [messages.length]);
 
   const handleNewChat = () => {
     const newId = crypto.randomUUID();
@@ -328,7 +334,7 @@ export function ChatInterface() {
             <ChatSuggestions onSelect={handleSend} />
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-6">
             <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((msg) => (
                 <ChatMessage key={msg.id} message={msg} />

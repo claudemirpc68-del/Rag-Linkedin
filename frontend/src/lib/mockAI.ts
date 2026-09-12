@@ -75,7 +75,7 @@ Quer que eu gere um rascunho sobre alguma aplicação específica de IA?`;
   if (lowerMessage.includes('engajamento') || lowerMessage.includes('viral') || lowerMessage.includes('alcance')) {
     return `📈 **Para aumentar o engajamento no LinkedIn:**
 
-**O que funciona em 2024:**
+**O que funciona em 2026:**
 
 ✅ **Formato nativo** - Sem links externos no post
 ✅ **Primeiras 3 linhas matadoras** - O "gancho" é tudo

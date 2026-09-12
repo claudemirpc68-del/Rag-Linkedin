@@ -1,20 +1,23 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+  const initialValueRef = useRef(initialValue);
+  initialValueRef.current = initialValue;
+
   // Get from local storage then parse stored json or return initialValue
   const readValue = useCallback((): T => {
     if (typeof window === 'undefined') {
-      return initialValue;
+      return initialValueRef.current;
     }
 
     try {
       const item = window.localStorage.getItem(key);
-      return item ? (JSON.parse(item) as T) : initialValue;
+      return item ? (JSON.parse(item) as T) : initialValueRef.current;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
-      return initialValue;
+      return initialValueRef.current;
     }
-  }, [initialValue, key]);
+  }, [key]);
 
   const [storedValue, setStoredValue] = useState<T>(readValue);
   

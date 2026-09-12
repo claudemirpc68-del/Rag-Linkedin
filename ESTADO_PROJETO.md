@@ -1,6 +1,6 @@
 # LinkedIn Viral Content AI — Estado do Projeto & Documentação Completa
 
-**Data de Atualização:** 11 de Setembro de 2026  
+**Data de Atualização:** 12 de Setembro de 2026  
 **Autor/Proprietário:** Claudemir Pedroso Cubas  
 **Repositório/Workspace:** `c:\Users\FAMÍLIA\Desktop\RAG_LINKEDIN`  
 **Porta Padrão Local:** `http://127.0.0.1:3000`
@@ -110,3 +110,4 @@ node ./node_modules/vite/bin/vite.js build
 - **v2.1:** Remoção de botões desnecessários na barra de ações dos posts, mantendo exclusivamente **Copiar** e **LinkedIn**.
 - **v2.2:** Ajuste do comportamento do agente conversacional para interação natural e geração de post exclusivamente sob demanda explícita.
 - **v2.3:** Correção da navegação na sidebar (desacoplamento Dashboard/Chat com espaçamento suave), resiliência e fallback offline local no calendário e histórico (sem erros de Supabase), remoção do badge Lovable e script de auditoria integral automatizada (30/30 testes aprovados).
+- **v2.4 (12/09/2026):** Enriquecimento cromático do Calendário (chips por categoria, status dots, legenda de cores, destaque vibrante do dia atual e bordas temáticas nos próximos posts), âncora factual em tempo real (data dinâmica, Sábado, 12/09/2026, ano corrente 2026 e horário local em todos os prompts da LLM) e estabilização completa da barra de rolagem (eliminação de loop de re-renders no `useLocalStorage`, scroll inteligente sob demanda no chat, contenção `overscroll-contain` e `scroll-behavior: auto !important`).

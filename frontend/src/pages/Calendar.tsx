@@ -168,11 +168,50 @@ export default function CalendarPage() {
     }
   };
 
+  const getCategoryChipStyle = (category: string) => {
+    switch (category) {
+      case 'historia-pessoal':
+        return 'bg-purple-500/15 text-purple-300 border-purple-500/30 hover:bg-purple-500/25';
+      case 'dica-pratica':
+        return 'bg-blue-500/15 text-blue-300 border-blue-500/30 hover:bg-blue-500/25';
+      case 'case-sucesso':
+        return 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25';
+      case 'ia-tecnologia':
+        return 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30 hover:bg-cyan-500/25';
+      case 'esg-cultura':
+        return 'bg-teal-500/15 text-teal-300 border-teal-500/30 hover:bg-teal-500/25';
+      case 'tendencias':
+        return 'bg-amber-500/15 text-amber-300 border-amber-500/30 hover:bg-amber-500/25';
+      default:
+        return 'bg-slate-500/15 text-slate-300 border-slate-500/30 hover:bg-slate-500/25';
+    }
+  };
+
+  const getCategoryLeftBorder = (category: string) => {
+    switch (category) {
+      case 'historia-pessoal': return 'border-l-purple-500';
+      case 'dica-pratica': return 'border-l-blue-500';
+      case 'case-sucesso': return 'border-l-emerald-500';
+      case 'ia-tecnologia': return 'border-l-cyan-500';
+      case 'esg-cultura': return 'border-l-teal-500';
+      case 'tendencias': return 'border-l-amber-500';
+      default: return 'border-l-primary';
+    }
+  };
+
+  const getStatusDotColor = (status: CalendarPost['status']) => {
+    switch (status) {
+      case 'publicado': return 'bg-emerald-400 shadow-xs shadow-emerald-400/50';
+      case 'agendado': return 'bg-blue-400 shadow-xs shadow-blue-400/50';
+      default: return 'bg-amber-400 shadow-xs shadow-amber-400/50';
+    }
+  };
+
   const getStatusColor = (status: CalendarPost['status']) => {
     switch (status) {
-      case 'publicado': return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300';
-      case 'agendado': return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300';
-      default: return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
+      case 'publicado': return 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
+      case 'agendado': return 'bg-blue-500/15 text-blue-300 border border-blue-500/30';
+      default: return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
     }
   };
 
@@ -274,7 +313,7 @@ export default function CalendarPage() {
             </div>
           </div>
           <p className="text-muted-foreground">
-            Organize e planeje seus posts do LinkedIn com antecedência.
+            Organize e planeje seus posts do LinkedIn com antecedência e controle visual de frequência.
             {!isAuthenticated && (
               <span className="block text-xs mt-1">
                 💡 Faça login para sincronizar seus posts entre dispositivos.
@@ -284,7 +323,7 @@ export default function CalendarPage() {
         </div>
 
         {/* Calendar Header */}
-        <Card className="mb-6">
+        <Card className="mb-4">
           <CardContent className="py-4">
             <div className="flex items-center justify-between">
               <Button variant="outline" size="icon" onClick={handlePrevMonth}>
@@ -300,14 +339,54 @@ export default function CalendarPage() {
           </CardContent>
         </Card>
 
+        {/* Color Legend Bar */}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-card/60 border border-border/50 text-xs">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-muted-foreground font-medium mr-1">Categorias:</span>
+            {categories.map(cat => (
+              <span
+                key={cat}
+                className={`px-2 py-0.5 rounded-md border text-[11px] font-medium transition-all ${getCategoryChipStyle(cat)}`}
+              >
+                {getCategoryLabel(cat)}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 border-l border-border/40 pl-3">
+            <span className="text-muted-foreground font-medium">Status:</span>
+            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-xs shadow-emerald-400/50" /> Publicado
+            </span>
+            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="w-2 h-2 rounded-full bg-blue-400 shadow-xs shadow-blue-400/50" /> Agendado
+            </span>
+            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className="w-2 h-2 rounded-full bg-amber-400 shadow-xs shadow-amber-400/50" /> Rascunho
+            </span>
+          </div>
+        </div>
+
         {/* Calendar Grid */}
         <Card>
           <CardContent className="p-4">
             {/* Day headers */}
             <div className="grid grid-cols-7 gap-1 mb-2">
-              {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(day => (
-                <div key={day} className="text-center text-sm font-medium text-muted-foreground py-2">
-                  {day}
+              {[
+                { name: 'Dom', weekend: true },
+                { name: 'Seg', weekend: false },
+                { name: 'Ter', weekend: false },
+                { name: 'Qua', weekend: false },
+                { name: 'Qui', weekend: false },
+                { name: 'Sex', weekend: false },
+                { name: 'Sáb', weekend: true }
+              ].map(day => (
+                <div 
+                  key={day.name} 
+                  className={`text-center text-xs font-semibold py-2 rounded-md ${
+                    day.weekend ? 'text-muted-foreground/60 bg-muted/20' : 'text-foreground/80 bg-muted/40'
+                  }`}
+                >
+                  {day.name}
                 </div>
               ))}
             </div>
@@ -316,41 +395,62 @@ export default function CalendarPage() {
             <div className="grid grid-cols-7 gap-1">
               {/* Empty cells for days before the first day of month */}
               {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-                <div key={`empty-${i}`} className="min-h-[100px] bg-muted/30 rounded-lg" />
+                <div key={`empty-${i}`} className="min-h-[105px] bg-muted/15 border border-border/20 rounded-lg" />
               ))}
 
               {days.map(day => {
                 const dayPosts = getPostsForDay(day);
                 const isCurrentDay = isToday(day);
+                const hasPosts = dayPosts.length > 0;
 
                 return (
                   <div
                     key={day.toISOString()}
-                    className={`min-h-[100px] p-2 rounded-lg border cursor-pointer transition-all hover:bg-accent/50 ${
-                      isCurrentDay ? 'border-primary bg-accent/30' : 'border-border'
+                    className={`min-h-[105px] p-2 rounded-lg border cursor-pointer transition-all duration-150 hover:border-primary/60 hover:shadow-xs ${
+                      isCurrentDay
+                        ? 'border-primary/80 bg-gradient-to-b from-primary/15 via-primary/5 to-transparent ring-1 ring-primary/50 shadow-sm shadow-primary/15'
+                        : hasPosts
+                        ? 'border-border/80 bg-card/80 hover:bg-card'
+                        : 'border-border/40 bg-card/30 hover:bg-card/60'
                     }`}
                     onClick={() => handleDayClick(day)}
                   >
-                    <div className={`text-sm font-medium mb-1 ${
-                      isCurrentDay ? 'text-primary' : 'text-foreground'
-                    }`}>
-                      {format(day, 'd')}
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className={`text-xs font-bold px-1.5 py-0.5 rounded-md ${
+                        isCurrentDay
+                          ? 'bg-primary text-primary-foreground shadow-xs'
+                          : 'text-foreground/80'
+                      }`}>
+                        {format(day, 'd')}
+                      </span>
+                      {hasPosts && (
+                        <div className="flex items-center gap-1">
+                          {dayPosts.map(p => (
+                            <span
+                              key={p.id}
+                              className={`w-1.5 h-1.5 rounded-full ${getStatusDotColor(p.status)}`}
+                              title={`${p.title} (${p.status})`}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       {dayPosts.slice(0, 2).map(post => (
                         <div
                           key={post.id}
-                          className="text-xs p-1 rounded bg-primary/10 text-primary truncate cursor-pointer hover:bg-primary/20"
+                          className={`text-xs p-1.5 rounded-md border flex items-center gap-1.5 truncate cursor-pointer transition-colors ${getCategoryChipStyle(post.category)}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleEditPost(post);
                           }}
                         >
-                          {post.title}
+                          <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${getStatusDotColor(post.status)}`} />
+                          <span className="truncate font-medium">{post.title}</span>
                         </div>
                       ))}
                       {dayPosts.length > 2 && (
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-[10px] font-semibold text-muted-foreground/90 pl-1">
                           +{dayPosts.length - 2} mais
                         </div>
                       )}
@@ -365,8 +465,13 @@ export default function CalendarPage() {
         {/* Upcoming Posts */}
         {posts.length > 0 && (
           <Card className="mt-6">
-            <CardHeader>
-              <CardTitle className="text-lg">Próximos Posts</CardTitle>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center justify-between">
+                <span>Próximos Posts</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {posts.length} post(s) cadastrado(s)
+                </span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -376,27 +481,27 @@ export default function CalendarPage() {
                   .map(post => (
                     <div 
                       key={post.id} 
-                      className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted cursor-pointer gap-3"
+                      className={`flex items-center justify-between p-3.5 rounded-lg bg-card/60 hover:bg-card/90 border border-border/50 border-l-4 ${getCategoryLeftBorder(post.category)} cursor-pointer gap-3 transition-all duration-150`}
                       onClick={() => handleEditPost(post)}
                     >
-                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                        <div className="text-center flex-shrink-0">
-                          <div className="text-xs text-muted-foreground">
+                      <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                        <div className="text-center flex-shrink-0 px-2.5 py-1 rounded-md bg-muted/40 border border-border/30">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                             {format(new Date(post.scheduledDate), 'MMM', { locale: ptBR })}
                           </div>
-                          <div className="text-lg font-bold text-foreground">
+                          <div className="text-xl font-bold text-foreground">
                             {format(new Date(post.scheduledDate), 'd')}
                           </div>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h4 className="font-medium text-foreground truncate">{post.title}</h4>
-                          <div className="flex items-center gap-2 mt-1 flex-wrap">
-                            <Badge variant="secondary" className={`${getCategoryColor(post.category)} text-xs`}>
+                          <h4 className="font-semibold text-foreground truncate text-sm">{post.title}</h4>
+                          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                            <span className={`px-2 py-0.5 rounded-md border text-[11px] font-medium ${getCategoryChipStyle(post.category)}`}>
                               {getCategoryLabel(post.category)}
-                            </Badge>
-                            <Badge variant="secondary" className={`${getStatusColor(post.status)} text-xs`}>
+                            </span>
+                            <span className={`px-2 py-0.5 rounded-md text-[11px] font-medium ${getStatusColor(post.status)}`}>
                               {post.status}
-                            </Badge>
+                            </span>
                           </div>
                         </div>
                       </div>

@@ -643,7 +643,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             <span className="font-bold text-foreground font-mono">LinkedIn Viral</span>
           </div>
           <p className="text-sm text-muted-foreground font-mono">
-            © 2024 LinkedIn Viral · Feito com ♥ para criadores
+            © 2026 LinkedIn Viral · Feito com ♥ para criadores
           </p>
         </div>
       </footer>
