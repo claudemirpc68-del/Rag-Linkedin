@@ -258,6 +258,13 @@ Resultado atual da suíte:
 
 ---
 
+## ⚖️ Termo de Isenção de Responsabilidade & Licença
+
+- **Aviso Legal e Isenção de Responsabilidade:** Consulte [DISCLAIMER.md](DISCLAIMER.md) para os termos completos de isenção sobre uso indevido, políticas de IA e conformidade com os termos de serviço do LinkedIn.
+- **Licença de Uso:** Distribuído sob a licença [MIT](LICENSE). Consulte o arquivo `LICENSE` para detalhes legais.
+
+---
+
 ## 👤 Autor
 
 **Claudemir Pedroso Cubas**  
