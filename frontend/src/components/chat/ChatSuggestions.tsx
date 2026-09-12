@@ -2,9 +2,7 @@ import { forwardRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   Lightbulb, 
-  TrendingUp, 
   MessageCircle, 
-  BookOpen,
   Search 
 } from 'lucide-react';
 
@@ -20,19 +18,9 @@ const suggestions = [
     color: 'text-yellow-600',
   },
   {
-    icon: TrendingUp,
-    text: 'Como aumentar meu engajamento no LinkedIn?',
-    color: 'text-green-600',
-  },
-  {
     icon: MessageCircle,
     text: 'Quero escrever sobre uma história pessoal de carreira',
     color: 'text-blue-600',
-  },
-  {
-    icon: BookOpen,
-    text: 'Crie um post sobre como uso IA no meu trabalho',
-    color: 'text-purple-600',
   },
 ];
 
