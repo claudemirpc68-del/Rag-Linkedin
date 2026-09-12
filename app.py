@@ -46,6 +46,11 @@ class GenerateRequest(BaseModel):
     engine: Optional[str] = "Groq"
     model: Optional[str] = None
     api_key: Optional[str] = None
+    use_web_research: Optional[bool] = True
+
+class ResearchRequest(BaseModel):
+    topic: str
+    max_sources: Optional[int] = 5
 
 class PublishRequest(BaseModel):
     post_content: str
@@ -175,11 +180,23 @@ def generate_posts(req: GenerateRequest):
             audience=req.audience,
             engine=req.engine,
             model=req.model,
-            api_key=req.api_key
+            api_key=req.api_key,
+            use_web_research=req.use_web_research if req.use_web_research is not None else True
         )
         return content
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/research")
+def research_trends_api(req: ResearchRequest):
+    """Executa pesquisa e scraping em tempo real de tendências e notícias factuais."""
+    if not req.topic.strip():
+        raise HTTPException(status_code=400, detail="O tema de pesquisa não pode estar vazio.")
+    from web_search_engine import research_topic_trends
+    try:
+        return research_topic_trends(req.topic.strip(), max_sources=req.max_sources or 5)
+    except Exception as ex:
+        raise HTTPException(status_code=500, detail=f"Erro ao pesquisar na web: {str(ex)}")
 
 @app.post("/api/chat")
 def chat_endpoint(req: ChatRequest):

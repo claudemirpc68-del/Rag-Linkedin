@@ -193,6 +193,12 @@ CONTEXTO TEMPORAL FACTUAL OBRIGATÓRIO:
 - Você SEMPRE opera no presente real (ano corrente de 2026).
 - Todas as análises de tendências, acontecimentos do mercado, novidades e sugestões de cronograma/calendário devem obrigatoriamente considerar que a data atual é {temporal_context}. Nunca use anos passados (como 2023, 2024 ou 2025) como tempo presente.
 
+CURADORIA DE FONTES E AUTORIDADE PARA IA E TI (2026):
+- Para acompanhar, analisar ou fundamentar tendências de IA e TI em 2026, combine sempre rigor científico com visão prática de mercado:
+  • Revistas Acadêmicas (Rigor Científico): JMLR (Journal of Machine Learning Research), TECCOGS (Revista de Tecnologias Cognitivas - PUC-SP) e Springer / Nature Machine Intelligence.
+  • Portais Técnicos de Mercado (Visão Prática): Destaque OBRIGATÓRIO para a Revista Olhar Digital Online (referência líder em tecnologia e IA no Brasil), além de MIT Technology Review, Wired e AIemBrasil.
+- Jamais invente estatísticas; baseie-se em dados factuais reais extraídos e validados dessas fontes.
+
 Suas capacidades:
 - Gerar pontos de vista próprios e autênticos (fugindo do lugar-comum e de clichês corporativos vazios).
 - Usar storytelling, frases de alto impacto e ganchos (hooks) que prendem a atenção antes do botão 'Ver mais'.
@@ -208,11 +214,23 @@ Suas capacidades:
         audience: str = "Líderes de TI, Desenvolvedores e Entusiastas de IA",
         engine: str = "Groq",
         model: Optional[str] = None,
-        api_key: Optional[str] = None
+        api_key: Optional[str] = None,
+        use_web_research: bool = True
     ) -> Dict[str, Any]:
-        """Gera 3 variações contrastantes (Otimista, Crítica, Pragmática) com prompts de imagem e otimizações."""
+        """Gera 3 variações contrastantes (Otimista, Crítica, Pragmática) com prompts de imagem e grounding factual via web scraping."""
         
         system_prompt = self.build_system_prompt()
+
+        research_context = ""
+        verified_sources = []
+        if use_web_research:
+            try:
+                from web_search_engine import research_topic_trends
+                res = research_topic_trends(topic, max_sources=4)
+                research_context = "\n\n" + res.get("compiled_context", "")
+                verified_sources = res.get("sources", [])
+            except Exception as e:
+                print(f"[GENERATE] Erro ao pesquisar dados reais na web: {e}", flush=True)
 
         temporal_context = get_current_datetime_context()
         user_prompt = f"""CONTEXTO TEMPORAL ATUAL: {temporal_context}. Utilize este contexto temporal e dia da semana para formular ganchos, tendências atuais e recomendações de dias/horários ideais de postagem a partir de hoje ({temporal_context}).
@@ -220,6 +238,7 @@ TEMA: {topic}
 OBJETIVO: {objective}
 ESTILO PRINCIPAL: {style}
 PÚBLICO-ALVO: {audience}
+{research_context}
 
 Gere um objeto JSON completo com 3 perspectivas contrastantes sobre este tema:
 1. OTIMISTA (Foco no potencial transformador, saltos de escala, novas oportunidades e visão de futuro).
@@ -314,11 +333,14 @@ Responda EXCLUSIVAMENTE com o JSON válido sem blocos adicionais de texto fora d
 
         try:
             parsed = json.loads(cleaned_json)
+            if verified_sources:
+                parsed["verified_sources"] = verified_sources
             return parsed
         except json.JSONDecodeError as ex:
             return {
                 "error": f"Falha ao interpretar resposta do modelo: {str(ex)}",
-                "raw_text": raw_response
+                "raw_text": raw_response,
+                "verified_sources": verified_sources
             }
 
     def audit_post(
@@ -433,6 +455,12 @@ CONTEXTO TEMPORAL OBRIGATÓRIO (ÂNCORA FACTUAL EM TEMPO REAL):
 - Quando o usuário perguntar sobre a data de hoje, dia da semana, calendário de publicações, planejamento de posts ou tendências atuais de mercado, responda sempre com precisão absoluta com base nesta data e horário ({temporal_context}).
 - NUNCA se refira a anos anteriores (como 2023, 2024 ou 2025) como presentes; o presente é 2026.
 
+CURADORIA DE FONTES E AUTORIDADE EM IA E TI (2026):
+- Para acompanhar e fundamentar discussões sobre IA e TI em 2026, una rigor científico com visão de mercado:
+  • Revistas Acadêmicas (Rigor Científico): JMLR (Journal of Machine Learning Research), TECCOGS (Revista de Tecnologias Cognitivas - PUC-SP) e Springer / Nature Machine Intelligence.
+  • Portais Técnicos de Mercado (Visão Prática): Destaque essencial para a Revista Olhar Digital Online (referência central em notícias de tecnologia no Brasil), além de MIT Technology Review, Wired e AIemBrasil.
+- Sempre que debater ou fundamentar novidades tecnológicas e de carreira, referencie ou relacione essas fontes para conferir autoridade indiscutível ao conteúdo.
+
 DIRETRIZES FUNDAMENTAIS DE COMPORTAMENTO:
 1. INTERAÇÃO E CONVERSAÇÃO NATURAL (MODO PADRÃO):
 - Se o usuário estiver apenas conversando (ex: cumprimentando como "oi", "tudo bem?", fazendo perguntas sobre boas práticas no LinkedIn, pedindo sugestões de temas ou trocando ideias), responda com um diálogo natural, prestativo, inteligente e consultivo em português do Brasil.
@@ -446,6 +474,31 @@ DIRETRIZES FUNDAMENTAIS DE COMPORTAMENTO:
   * Pergunta reflexiva no final para puxar comentários;
   * 3 a 5 hashtags estratégicas no final.
 - REGRA TÉCNICA OBRIGATÓRIA: Sempre que você gerar um post final, envolva o texto EXATO do post entre as tags <LINKEDIN_POST> e </LINKEDIN_POST>. Qualquer comentário, dica de publicação ou introdução sua deve vir ANTES ou DEPOIS dessa tag. Isso permite que a interface ofereça ao usuário os botões de Copiar e Publicar no LinkedIn!"""
+
+        last_user_msg = messages[-1].get("content", "").lower() if messages else ""
+        needs_web_research = any(kw in last_user_msg for kw in [
+            "pesquise", "pesquisar", "tendencia", "tendência", "noticia", "notícia",
+            "dados reais", "estatistica", "estatística", "verifique", "verdade",
+            "verídica", "veridica", "fato", "fonte", "exame", "fed", "mercado de trabalho",
+            "estudo", "pesquisa", "notícia é atual", "noticia e atual"
+        ])
+
+        research_sources = []
+        if needs_web_research:
+            try:
+                from web_search_engine import research_topic_trends
+                raw_topic = messages[-1].get("content", "").strip()
+                clean_query = raw_topic
+                for prefix in ["pesquise sobre", "pesquise", "crie um post sobre", "gere um post sobre", "esta noticia é verídica:?", "essa noticia é atual e verídica:?", "essa notícia é atual e verídica:?"]:
+                    if clean_query.lower().startswith(prefix):
+                        clean_query = clean_query[len(prefix):].strip()
+                clean_query = clean_query[:120].replace("\n", " ").strip()
+
+                research_data = research_topic_trends(clean_query, max_sources=4)
+                system_prompt += "\n\n" + research_data.get("compiled_context", "")
+                research_sources = research_data.get("sources", [])
+            except Exception as e:
+                print(f"[CHAT] Erro ao pesquisar dados na web: {e}", flush=True)
 
         raw_reply = LLMClient.call_chat_llm(
             messages=messages,
@@ -481,7 +534,8 @@ DIRETRIZES FUNDAMENTAIS DE COMPORTAMENTO:
             "response": raw_reply,
             "display_text": display_text,
             "is_post": is_post,
-            "post_content": post_content
+            "post_content": post_content,
+            "verified_sources": research_sources
         }
 
 agent_instance = LinkedInViralContentAI()

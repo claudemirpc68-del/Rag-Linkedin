@@ -160,6 +160,7 @@ export function ChatInterface() {
         content: data.display_text || data.response || 'Sem resposta.',
         isPost: Boolean(data.is_post),
         postContent: data.post_content || undefined,
+        verifiedSources: data.verified_sources || undefined,
         timestamp: new Date(),
       };
 

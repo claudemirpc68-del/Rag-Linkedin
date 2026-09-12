@@ -1,3 +1,12 @@
+export interface VerifiedSource {
+  title: string;
+  source: string;
+  published: string;
+  url: string;
+  paragraphs?: string[];
+  metrics?: string[];
+}
+
 export interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -5,6 +14,7 @@ export interface Message {
   isPost?: boolean;
   postContent?: string;
   timestamp: Date;
+  verifiedSources?: VerifiedSource[];
 }
 
 export interface Conversation {

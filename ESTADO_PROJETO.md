@@ -73,8 +73,9 @@ RAG_LINKEDIN/
 
 ## 4. Endpoints REST da API FastAPI (`app.py`)
 
-- `POST /api/chat`: Recebe a lista de mensagens multi-turno `[{"role": "user"|"assistant", "content": "..."}]` e processa a resposta conversacional. Retorna `{ response, display_text, is_post: bool, post_content: Optional[str] }`.
-- `POST /api/generate`: Gera o pacote triplo de perspectivas (Otimista, Crítica e Pragmática) com ganchos, prompts de imagem e recomendações algorítmicas.
+- `POST /api/chat`: Recebe a lista de mensagens multi-turno `[{"role": "user"|"assistant", "content": "..."}]` e processa a resposta conversacional. Quando envolve tendências/notícias, dispara pesquisa web com grounding em tempo real. Retorna `{ response, display_text, is_post: bool, post_content: Optional[str], verified_sources: List[Dict] }`.
+- `POST /api/research`: Endpoint dedicado de pesquisa web e extração de notícias/estatísticas reais. Integra Tavily AI Search + scraping de feed da Revista Olhar Digital Online e fallback para Google News RSS.
+- `POST /api/generate`: Gera o pacote triplo de perspectivas (Otimista, Crítica e Pragmática) com ganchos, prompts de imagem e recomendações algorítmicas fundamentadas em dados reais.
 - `POST /api/publish`: Publica o comentário/post no LinkedIn via API oficial ou em modo de simulação.
 - `POST /api/upload-image`: Realiza o upload de mídia para registro de URN na API de Imagens do LinkedIn.
 - `POST /api/rag-query`: Consulta semântica de tópicos na documentação oficial indexada via FAISS.
@@ -111,3 +112,10 @@ node ./node_modules/vite/bin/vite.js build
 - **v2.2:** Ajuste do comportamento do agente conversacional para interação natural e geração de post exclusivamente sob demanda explícita.
 - **v2.3:** Correção da navegação na sidebar (desacoplamento Dashboard/Chat com espaçamento suave), resiliência e fallback offline local no calendário e histórico (sem erros de Supabase), remoção do badge Lovable e script de auditoria integral automatizada (30/30 testes aprovados).
 - **v2.4 (12/09/2026):** Enriquecimento cromático do Calendário (chips por categoria, status dots, legenda de cores, destaque vibrante do dia atual e bordas temáticas nos próximos posts), âncora factual em tempo real (data dinâmica, Sábado, 12/09/2026, ano corrente 2026 e horário local em todos os prompts da LLM) e estabilização completa da barra de rolagem (eliminação de loop de re-renders no `useLocalStorage`, scroll inteligente sob demanda no chat, contenção `overscroll-contain` e `scroll-behavior: auto !important`).
+- **v2.5 (12/09/2026):** **Pesquisa em Tempo Real, Grounding Anti-Alucinação & Curadoria de Fontes Especializadas:**
+  - **Tavily AI Search Engine (`web_search_engine.py`):** Motor de pesquisa avançado com extração profunda, síntese executiva factual e auditoria de fontes reais.
+  - **Curadoria Equilibrada (Rigor Científico + Prática de Mercado):**
+    - *Revistas Acadêmicas:* JMLR (Journal of Machine Learning Research), TECCOGS (Revista de Tecnologias Cognitivas - PUC-SP) e Springer / Nature Machine Intelligence.
+    - *Portais Técnicos de Mercado:* Destaque imperativo para a **Revista Olhar Digital Online** (com leitor RSS nativo em tempo real para breaking news do Brasil), além de MIT Technology Review, Wired e AIemBrasil.
+  - **Diretriz Inegociável Anti-Alucinação:** Proibição estrita de estatísticas inventadas; citação obrigatória de veículos e estudos verificados.
+  - **Frontend Grounding Badges:** Exibição de chips de "Fontes Verificadas" com links auditáveis nas respostas do chat.
