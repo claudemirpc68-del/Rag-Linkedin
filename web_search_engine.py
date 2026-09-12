@@ -345,10 +345,11 @@ def research_topic_trends(topic: str, max_sources: int = 5) -> Dict[str, Any]:
                 lines.append(f"    > {p}")
 
     lines.append("\n" + "="*70)
-    lines.append("DIRETRIZ INEGOCIÁVEL DE INTEGRIDADE JORNALÍSTICA E TÉCNICA:")
-    lines.append("1. É ESTRITAMENTE PROIBIDO INVENTAR ESTATÍSTICAS OU DADOS FICTÍCIOS.")
-    lines.append("2. Se você citar números, percentuais ou pesquisas, utilize OBRIGATORIAMENTE os dados extraídos das fontes reais acima.")
-    lines.append("3. Cite as fontes com clareza e autoridade no post (ex: 'Conforme apurado pela Revista Olhar Digital Online...', 'Segundo análise da MIT Tech Review...', 'Com base em estudos da JMLR/Springer...').")
+    lines.append("DIRETRIZ INEGOCIÁVEL DE INTEGRIDADE JORNALÍSTICA E TÉCNICA (ANTI-FALSA ATRIBUIÇÃO):")
+    lines.append("1. É ESTRITAMENTE PROIBIDO INVENTAR ESTATÍSTICAS, NOTÍCIAS OU DADOS FICTÍCIOS.")
+    lines.append("2. PROIBIÇÃO DE FALSA ATRIBUIÇÃO: NUNCA afirme que um veículo (ex: Olhar Digital, Wired, etc.) publicou algo a menos que o fato esteja literalmente contido nos trechos raspados acima.")
+    lines.append("3. Se você citar números, percentuais ou pesquisas, utilize OBRIGATORIAMENTE os dados extraídos das fontes reais acima.")
+    lines.append("4. Distinga rigorosamente: Artigo Acadêmico (conceitual/metodológico) NÃO É reportagem jornalística de portal.")
     lines.append("="*70)
 
     compiled_context = "\n".join(lines)

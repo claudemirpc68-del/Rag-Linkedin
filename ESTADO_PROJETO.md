@@ -116,6 +116,18 @@ node ./node_modules/vite/bin/vite.js build
   - **Tavily AI Search Engine (`web_search_engine.py`):** Motor de pesquisa avançado com extração profunda, síntese executiva factual e auditoria de fontes reais.
   - **Curadoria Equilibrada (Rigor Científico + Prática de Mercado):**
     - *Revistas Acadêmicas:* JMLR (Journal of Machine Learning Research), TECCOGS (Revista de Tecnologias Cognitivas - PUC-SP) e Springer / Nature Machine Intelligence.
-    - *Portais Técnicos de Mercado:* Destaque imperativo para a **Revista Olhar Digital Online** (com leitor RSS nativo em tempo real para breaking news do Brasil), além de MIT Technology Review, Wired e AIemBrasil.
-  - **Diretriz Inegociável Anti-Alucinação:** Proibição estrita de estatísticas inventadas; citação obrigatória de veículos e estudos verificados.
+    - *Portais Técnicos de Mercado:* Revista Olhar Digital Online (com leitor RSS nativo em tempo real para breaking news do Brasil), MIT Technology Review, Wired e AIemBrasil.
+  - **Diretriz Inegociável Anti-Alucinação & Anti-Falsa Atribuição:** Proibição estrita de estatísticas inventadas e de criação de falsas notícias/levantamentos atribuídos indevidamente a veículos de imprensa. Citação obrigatória e literal de estudos verificados com distinção categórica entre Artigo Acadêmico e Reportagem Jornalística.
   - **Frontend Grounding Badges:** Exibição de chips de "Fontes Verificadas" com links auditáveis nas respostas do chat.
+
+---
+
+## 7. Registro de Melhoria Contínua & Governança (Regras 1 e 3)
+
+### Incidente e Análise de Resposta da IA (12/09/2026)
+- **Problema Identificado:** Em resposta ilustrativa, a IA gerou um exemplo combinando conceitos teóricos de artigos acadêmicos (TECCOGS/Springer) com uma atribuição fictícia à Revista Olhar Digital Online (*"levantamento recente destacado pela Revista Olhar Digital Online..."*), sem que essa matéria tivesse sido de fato publicada pelo veículo.
+- **Risco de Governança:** Falsa atribuição jornalística (*false attribution*), violando a fidelidade dos fatos e a credibilidade de veículos de comunicação.
+- **Ajuste Imediato Aplicado:**
+  1. Inclusão da **Regra de Ouro Contra Falsa Atribuição** nos prompts do sistema em `agent_core.py` e nas diretrizes de compilação em `web_search_engine.py`.
+  2. Proibição de vincular teses analíticas ou acadêmicas a portais de notícias como se fossem reportagens de fatos.
+  3. Toda e qualquer citação de veículo exige conteúdo literal e URL raspada na sessão corrente.
